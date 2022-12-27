@@ -3,7 +3,7 @@ services:
     container_name: gin-go
     build:
       context: . # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: Dockerfile
+      dockerfile: ./Docker/Dockerfile
     restart: always
     ports:
       - "9000:9000"
@@ -26,15 +26,11 @@ services:
 
   postgres:
     container_name: gin-postgres
-    image: "postgres:12.13-alpine"
+    build:
+      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: db.Dockerfile
     restart: always
     ports:
       - "5432:5432"
-    volumes:
-      - ./db/database.sql:/docker-entrypoint-initdb.d/init.sql
     # command: "psql -c 'create database golang_gin_db;' -U postgres && psql -U postgres < /home/dump.sql"
     # command: bash -c "psql -U postgres < /docker-entrypoint-initdb.d/init.sql"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=golang_gin_db
