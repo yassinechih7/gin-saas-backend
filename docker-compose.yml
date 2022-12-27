@@ -10,34 +10,31 @@ services:
     depends_on:
       - redis
       - postgres
-    networks:
-      - backend
+    links:
+      - "postgres:database"
+      - "redis:cache"
+
 
   redis:
     container_name: gin-redis
     restart: always
     image: "redis:6.2-alpine"
+    command: sh -c "redis-server --requirepass hjfhjhasdfkyuy2"
+
     ports:
-      - '6379:6379'
-    networks:
-      - backend
+      - "6379:6379"
 
   postgres:
     container_name: gin-postgres
     image: "postgres:12.13-alpine"
     restart: always
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - ./db/database.sql:/docker-entrypoint-initdb.d/init.sql
     # command: "psql -c 'create database golang_gin_db;' -U postgres && psql -U postgres < /home/dump.sql"
+    # command: bash -c "psql -U postgres < /docker-entrypoint-initdb.d/init.sql"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=golang_gin_db
-    networks:
-      - backend
-
-networks:
-  backend:
-    driver: bridge
