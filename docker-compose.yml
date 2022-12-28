@@ -2,8 +2,8 @@ services:
   webapp:
     container_name: gin-go
     build:
-      context: . # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: ./Docker/app.Dockerfile
+      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: app.Dockerfile
     restart: always
     ports:
       - "9000:9000"
@@ -20,7 +20,7 @@ services:
     restart: always
     build:
       context: ./Docker/redis # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: redis.Dockerfile
+      dockerfile: Dockerfile
     volumes:
       - ./Docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
@@ -29,8 +29,8 @@ services:
   postgres:
     container_name: gin-postgres
     build:
-      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: db.Dockerfile
+      context: ./Docker/postgres # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "5432:5432"
