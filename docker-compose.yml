@@ -1,0 +1,38 @@
+services:
+  webapp:
+    container_name: gin-go
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: ./Docker/app.Dockerfile
+    restart: always
+    ports:
+      - "9000:9000"
+    depends_on:
+      - redis
+      - postgres
+    links:
+      - "postgres:database"
+      - "redis:cache"
+
+
+  redis:
+    container_name: gin-redis
+    restart: always
+    build:
+      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: redis.Dockerfile
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+
+  postgres:
+    container_name: gin-postgres
+    build:
+      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: db.Dockerfile
+    restart: always
+    ports:
+      - "5432:5432"
+    # command: "psql -c 'create database golang_gin_db;' -U postgres && psql -U postgres < /home/dump.sql"
+    # command: bash -c "psql -U postgres < /docker-entrypoint-initdb.d/init.sql"
