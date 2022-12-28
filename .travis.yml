@@ -29,7 +29,7 @@ before_install:
 
 install:
   - mv .env_rename_me .env
-  - mkdir cert/ && sh generate-certificate.sh
+  - sh generate-certificate.sh
 
 script:
   - go test -v ./tests/*
