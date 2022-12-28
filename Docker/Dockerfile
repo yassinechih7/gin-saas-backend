@@ -2,7 +2,7 @@ FROM golang:1.19.4-alpine
 
 # The latest alpine images don't have some tools like (`git` and `bash`).
 # Adding git, bash and openssh to the image
-RUN apk add --no-cache bash git openssh
+RUN apk add --no-cache bash git openssh g++ gcc clang
 
 # Set the Current Working Directory inside the container
 WORKDIR /app

@@ -18,10 +18,9 @@ type DB struct {
 
 var db *gorp.DbMap
 
-
-const ( HOST = "database"
+const (
+	HOST = "database"
 	PORT = 5432
-
 )
 
 // Init ...

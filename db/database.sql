@@ -12,7 +12,7 @@ SET client_min_messages = warning;
 --
 -- Name: golang_gin_db; Type: DATABASE; Schema: -; Owner: postgres
 --
-DROP DATABASE golang_gin_db;
+DROP DATABASE IF EXISTS golang_gin_db;
 
 CREATE DATABASE golang_gin_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.UTF-8' LC_CTYPE = 'en_US.UTF-8';
 
