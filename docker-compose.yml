@@ -19,10 +19,10 @@ services:
     container_name: gin-redis
     restart: always
     build:
-      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
+      context: ./Docker/redis # Use an image built from the specified dockerfile in the current directory.
       dockerfile: redis.Dockerfile
     volumes:
-      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+      - ./Docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
     ports:
       - "6379:6379"
 
