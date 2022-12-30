@@ -12,12 +12,12 @@ import (
 	jwt "github.com/golang-jwt/jwt/v4"
 )
 
-//AuthController ...
+// AuthController ...
 type AuthController struct{}
 
 var authModel = new(models.AuthModel)
 
-//TokenValid ...
+// TokenValid ...
 func (ctl AuthController) TokenValid(c *gin.Context) {
 
 	tokenAuth, err := authModel.ExtractTokenMetadata(c.Request)
@@ -39,6 +39,17 @@ func (ctl AuthController) TokenValid(c *gin.Context) {
 }
 
 //Refresh ...
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /article [post]
 func (ctl AuthController) Refresh(c *gin.Context) {
 	var tokenForm forms.Token
 

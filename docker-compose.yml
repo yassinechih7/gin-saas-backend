@@ -2,8 +2,8 @@ services:
   webapp:
     container_name: gin-go
     build:
-      context: ./Docker # Use an image built from the specified dockerfile in the current directory.
-      dockerfile: app.Dockerfile
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: ./Docker/app.Dockerfile
     restart: always
     ports:
       - "9000:9000"

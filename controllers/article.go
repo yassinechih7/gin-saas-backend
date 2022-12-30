@@ -11,13 +11,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//ArticleController ...
+// ArticleController ...
 type ArticleController struct{}
 
 var articleModel = new(models.ArticleModel)
 var articleForm = new(forms.ArticleForm)
 
 //Create ...
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /article [post]
 func (ctrl ArticleController) Create(c *gin.Context) {
 	userID := getUserID(c)
 
@@ -38,7 +49,18 @@ func (ctrl ArticleController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Article created", "id": id})
 }
 
-//All ...
+// All ...
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /article [post]
 func (ctrl ArticleController) All(c *gin.Context) {
 	userID := getUserID(c)
 
@@ -51,7 +73,18 @@ func (ctrl ArticleController) All(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"results": results})
 }
 
-//One ...
+// One ...
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /article [post]
 func (ctrl ArticleController) One(c *gin.Context) {
 	userID := getUserID(c)
 
@@ -72,7 +105,18 @@ func (ctrl ArticleController) One(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": data})
 }
 
-//Update ...
+// Update ...
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /article [post]
 func (ctrl ArticleController) Update(c *gin.Context) {
 	userID := getUserID(c)
 
@@ -101,7 +145,18 @@ func (ctrl ArticleController) Update(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Article updated"})
 }
 
-//Delete ...
+// Delete ...
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /article [post]
 func (ctrl ArticleController) Delete(c *gin.Context) {
 	userID := getUserID(c)
 
