@@ -57,14 +57,14 @@ func SetupRouter() *gin.Engine {
 
 		v1.POST("/token/refresh", auth.Refresh)
 
-		/*** START Article ***/
-		article := new(controllers.ArticleController)
+		/*** START Product ***/
+		product := new(controllers.ProductController)
 
 		v1.POST("/product", TokenAuthMiddleware(), product.Create)
-		v1.GET("/articles", TokenAuthMiddleware(), article.All)
-		v1.GET("/article/:id", TokenAuthMiddleware(), article.One)
-		v1.PUT("/article/:id", TokenAuthMiddleware(), article.Update)
-		v1.DELETE("/article/:id", TokenAuthMiddleware(), article.Delete)
+		v1.GET("/products", TokenAuthMiddleware(), product.All)
+		v1.GET("/product/:id", TokenAuthMiddleware(), product.One)
+		v1.PUT("/product/:id", TokenAuthMiddleware(), product.Update)
+		v1.DELETE("/product/:id", TokenAuthMiddleware(), product.Delete)
 	}
 
 	return r
@@ -83,7 +83,7 @@ var testPassword = "123456"
 var accessToken string
 var refreshToken string
 
-var articleID int
+var productID int
 
 /**
 * TestIntDB
@@ -251,22 +251,22 @@ func TestInvalidLogin(t *testing.T) {
 }
 
 /**
-* TestCreateArticle
-* Test article creation
+* TestCreateProduct
+* Test product creation
 *
 * Must return response code 200
  */
-func TestCreateArticle(t *testing.T) {
+func TestCreateProduct(t *testing.T) {
 	testRouter := SetupRouter()
 
-	var form forms.CreateArticleForm
+	var form forms.CreateProductForm
 
-	form.Title = "Testing article title"
-	form.Content = "Testing article content"
+	form.Title = "Testing product title"
+	form.Content = "Testing product content"
 
 	data, _ := json.Marshal(form)
 
-	req, err := http.NewRequest("POST", "/v1/article", bytes.NewBufferString(string(data)))
+	req, err := http.NewRequest("POST", "/v1/product", bytes.NewBufferString(string(data)))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer: %s", accessToken))
 
@@ -288,27 +288,27 @@ func TestCreateArticle(t *testing.T) {
 	}
 	json.Unmarshal(body, &res)
 
-	articleID = res.ID
+	productID = res.ID
 
 	assert.Equal(t, http.StatusOK, resp.Code)
 }
 
 /**
-* TestCreateInvalidArticle
-* Test article invalid creation
+* TestCreateInvalidProduct
+* Test product invalid creation
 *
 * Must return response code 406
  */
-func TestCreateInvalidArticle(t *testing.T) {
+func TestCreateInvalidProduct(t *testing.T) {
 	testRouter := SetupRouter()
 
-	var form forms.CreateArticleForm
+	var form forms.CreateProductForm
 
-	form.Title = "Testing article title"
+	form.Title = "Testing product title"
 
 	data, _ := json.Marshal(form)
 
-	req, err := http.NewRequest("POST", "/v1/article", bytes.NewBufferString(string(data)))
+	req, err := http.NewRequest("POST", "/v1/product", bytes.NewBufferString(string(data)))
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer: %s", accessToken))
 
@@ -323,15 +323,15 @@ func TestCreateInvalidArticle(t *testing.T) {
 }
 
 /**
-* TestGetArticle
-* Test getting one article
+* TestGetProduct
+* Test getting one product
 *
 * Must return response code 200
  */
-func TestGetArticle(t *testing.T) {
+func TestGetProduct(t *testing.T) {
 	testRouter := SetupRouter()
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("/v1/article/%d", articleID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("/v1/product/%d", productID), nil)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer: %s", accessToken))
 
 	if err != nil {
@@ -345,15 +345,15 @@ func TestGetArticle(t *testing.T) {
 }
 
 /**
-* TestGetInvalidArticle
-* Test getting invalid article
+* TestGetInvalidProduct
+* Test getting invalid product
 *
 * Must return response code 404
  */
-func TestGetInvalidArticle(t *testing.T) {
+func TestGetInvalidProduct(t *testing.T) {
 	testRouter := SetupRouter()
 
-	req, err := http.NewRequest("GET", "/v1/article/invalid", nil)
+	req, err := http.NewRequest("GET", "/v1/product/invalid", nil)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer: %s", accessToken))
 
 	if err != nil {
@@ -367,15 +367,15 @@ func TestGetInvalidArticle(t *testing.T) {
 }
 
 /**
-* TestGetArticleNotLoggedin
-* Test getting the article with logged out user
+* TestGetProductNotLoggedin
+* Test getting the product with logged out user
 *
 * Must return response code 401
  */
-func TestGetArticleNotLoggedin(t *testing.T) {
+func TestGetProductNotLoggedin(t *testing.T) {
 	testRouter := SetupRouter()
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("/v1/article/%d", articleID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("/v1/product/%d", productID), nil)
 	req.Header.Set("Content-Type", "application/json")
 
 	if err != nil {
@@ -389,15 +389,15 @@ func TestGetArticleNotLoggedin(t *testing.T) {
 }
 
 /**
-* TestGetArticleUnauthorized
-* Test getting the article with unauthorized user (wrong or expired access_token)
+* TestGetProductUnauthorized
+* Test getting the product with unauthorized user (wrong or expired access_token)
 *
 * Must return response code 401
  */
-func TestGetArticleUnauthorized(t *testing.T) {
+func TestGetProductUnauthorized(t *testing.T) {
 	testRouter := SetupRouter()
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("/v1/article/%d", articleID), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("/v1/product/%d", productID), nil)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer: %s", "abc123"))
 
@@ -412,22 +412,22 @@ func TestGetArticleUnauthorized(t *testing.T) {
 }
 
 /**
-* TestUpdateArticle
-* Test updating an article
+* TestUpdateProduct
+* Test updating an product
 *
 * Must return response code 200
  */
-func TestUpdateArticle(t *testing.T) {
+func TestUpdateProduct(t *testing.T) {
 	testRouter := SetupRouter()
 
-	var form forms.CreateArticleForm
+	var form forms.CreateProductForm
 
-	form.Title = "Testing new article title"
-	form.Content = "Testing new article content"
+	form.Title = "Testing new product title"
+	form.Content = "Testing new product content"
 
 	data, _ := json.Marshal(form)
 
-	url := fmt.Sprintf("/v1/article/%d", articleID)
+	url := fmt.Sprintf("/v1/product/%d", product)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBufferString(string(data)))
 	req.Header.Set("Content-Type", "application/json")
@@ -444,15 +444,15 @@ func TestUpdateArticle(t *testing.T) {
 }
 
 /**
-* TestDeleteArticle
-* Test deleting an article
+* TestDeleteProduct
+* Test deleting an product
 *
 * Must return response code 200
  */
-func TestDeleteArticle(t *testing.T) {
+func TestDeleteProduct(t *testing.T) {
 	testRouter := SetupRouter()
 
-	url := fmt.Sprintf("/v1/article/%d", articleID)
+	url := fmt.Sprintf("/v1/product/%d", productID)
 
 	req, err := http.NewRequest("DELETE", url, nil)
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer: %s", accessToken))
@@ -548,7 +548,7 @@ func TestUserLogout(t *testing.T) {
 
 /**
 * TestCleanUp
-* Deletes the created user with it's articles
+* Deletes the created user with it's products
 *
 * Must pass
  */
