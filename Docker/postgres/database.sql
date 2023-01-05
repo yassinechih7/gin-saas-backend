@@ -156,6 +156,41 @@ ALTER TABLE user_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE user_id_seq OWNED BY "user".id;
 
+--
+-- Name: product; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+--
+
+CREATE TABLE product (
+    id integer NOT NULL,
+    user_id integer,
+    title character varying,
+    content text,
+    updated_at integer,
+    created_at integer
+);
+
+
+ALTER TABLE product OWNER TO postgres;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE product_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE product_id_seq OWNER TO postgres;
+
+--
+-- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE product_id_seq OWNED BY product.id;
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
@@ -170,6 +205,12 @@ ALTER TABLE ONLY article ALTER COLUMN id SET DEFAULT nextval('article_id_seq'::r
 
 ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regclass);
 
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY product ALTER COLUMN id SET DEFAULT nextval('product_id_seq'::regclass);
 
 --
 -- Data for Name: article; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -200,6 +241,19 @@ COPY "user" (id, email, password, name, updated_at, created_at) FROM stdin;
 
 SELECT pg_catalog.setval('user_id_seq', 1, false);
 
+--
+-- Data for Name: product; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY product (id, user_id, title, content, updated_at, created_at) FROM stdin;
+\.
+
+
+--
+-- Name: product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('product_id_seq', 1, false);
 
 --
 -- Name: article_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
@@ -216,6 +270,13 @@ ALTER TABLE ONLY article
 ALTER TABLE ONLY "user"
     ADD CONSTRAINT user_id PRIMARY KEY (id);
 
+--
+-- Name: product_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+--
+
+ALTER TABLE ONLY product
+    ADD CONSTRAINT product_id PRIMARY KEY (id);
+
 
 --
 -- Name: article_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
@@ -223,6 +284,14 @@ ALTER TABLE ONLY "user"
 
 ALTER TABLE ONLY article
     ADD CONSTRAINT article_user_id FOREIGN KEY (user_id) REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+--
+-- Name: product_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY product
+    ADD CONSTRAINT article_user_id FOREIGN KEY (user_id) REFERENCES "user"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
 
 
 --
@@ -240,6 +309,13 @@ CREATE TRIGGER create_article_created_at BEFORE INSERT ON article FOR EACH ROW E
 
 CREATE TRIGGER create_user_created_at BEFORE INSERT ON "user" FOR EACH ROW EXECUTE PROCEDURE created_at_column();
 
+--
+-- TOC entry 2284 (class 2620 OID 36647)
+-- Name: article create_article_created_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER create_product_created_at BEFORE INSERT ON product FOR EACH ROW EXECUTE PROCEDURE created_at_column();
+
 
 --
 -- TOC entry 2285 (class 2620 OID 36648)
@@ -256,6 +332,12 @@ CREATE TRIGGER update_article_updated_at BEFORE UPDATE ON article FOR EACH ROW E
 
 CREATE TRIGGER update_user_updated_at BEFORE UPDATE ON "user" FOR EACH ROW EXECUTE PROCEDURE update_at_column();
 
+--
+-- TOC entry 2285 (class 2620 OID 36648)
+-- Name: article update_article_updated_at; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER update_product_updated_at BEFORE UPDATE ON product FOR EACH ROW EXECUTE PROCEDURE update_at_column();
 
 
 --

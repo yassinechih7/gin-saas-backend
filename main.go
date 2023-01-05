@@ -115,6 +115,15 @@ func main() {
 		v1.GET("/article/:id", TokenAuthMiddleware(), article.One)
 		v1.PUT("/article/:id", TokenAuthMiddleware(), article.Update)
 		v1.DELETE("/article/:id", TokenAuthMiddleware(), article.Delete)
+
+		/*** START Product ***/
+		product := new(controllers.ArticleController)
+
+		v1.POST("/product", TokenAuthMiddleware(), product.Create)
+		v1.GET("/product", TokenAuthMiddleware(), product.All)
+		v1.GET("/product/:id", TokenAuthMiddleware(), product.One)
+		v1.PUT("/product/:id", TokenAuthMiddleware(), product.Update)
+		v1.DELETE("/product/:id", TokenAuthMiddleware(), product.Delete)
 	}
 
 	r.LoadHTMLGlob("./public/html/*")
