@@ -156,41 +156,6 @@ ALTER TABLE user_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE user_id_seq OWNED BY "user".id;
 
---
--- Name: product; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
---
-
-CREATE TABLE product (
-    id integer NOT NULL,
-    user_id integer,
-    title character varying,
-    content text,
-    updated_at integer,
-    created_at integer
-);
-
-
-ALTER TABLE product OWNER TO postgres;
-
---
--- Name: product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE article_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE product_id_seq OWNER TO postgres;
-
---
--- Name: product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE product_id_seq OWNED BY product.id;
 
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
