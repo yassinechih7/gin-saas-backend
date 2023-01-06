@@ -427,7 +427,7 @@ func TestUpdateProduct(t *testing.T) {
 
 	data, _ := json.Marshal(form)
 
-	url := fmt.Sprintf("/v1/product/%d", product)
+	url := fmt.Sprintf("/v1/product/%d", productID)
 
 	req, err := http.NewRequest("PUT", url, bytes.NewBufferString(string(data)))
 	req.Header.Set("Content-Type", "application/json")
